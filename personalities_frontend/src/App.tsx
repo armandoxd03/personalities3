@@ -1,9 +1,9 @@
-import { useState, useEffect } from 'react'; 
+import { useState, useEffect } from 'react';
 // import { animeList } from './data.tsx';
 import './App.css';
-import { 
-  Card, CardMedia, CardContent, CardActions, Collapse, 
-  IconButton, Typography 
+import {
+  Card, CardMedia, CardContent, CardActions, Collapse,
+  IconButton, Typography
 } from '@mui/material';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
@@ -55,66 +55,69 @@ export default function AnimeCard() {
   let anime = animeList[index];
 
   return (
-    <div className="anime-box">
-      <div className="anime-header">
-        <IconButton aria-label="back" onClick={handleBackClick} sx={{ color: 'white' }}>
-          <ArrowBackIcon />
-        </IconButton>
+    <div className="anime-box" style={{ display: 'flex', justifyContent: 'center' }}>
+      <Card sx={{ maxWidth: 345 }} className="anime-card">
+        <CardContent>
+          <Typography variant="h5" component="h2" className="anime-title">
+            John Roy Ducut - C-PEITEL3
+          </Typography>
+          <Typography variant="h6" component="h3">
+            My Anime List
+          </Typography>
+          <Typography variant="subtitle1" component="h3">
+            {index + 1} of {animeList.length}
+          </Typography>
+        </CardContent>
 
-        <Card sx={{ maxWidth: 345 }} className="anime-card">
+        <CardMedia
+          component="img"
+          image={anime.url}
+          alt={anime.alt}
+          className="anime-image"
+        />
+
+        <CardActions
+          className="card-actions"
+          sx={{ display: 'flex', justifyContent: 'center', gap: 2 }}
+        >
+          <IconButton aria-label="back" onClick={handleBackClick}>
+            <ArrowBackIcon />
+          </IconButton>
+
+          <IconButton aria-label="next" onClick={handleNextClick}>
+            <ArrowForwardIcon />
+          </IconButton>
+        </CardActions>
+
+        <CardContent>
+          <Typography variant="h6" className="anime-title">
+            {anime.name}
+          </Typography>
+          <Typography variant="body2" color="text.secondary">
+            by {anime.artist}
+          </Typography>
+
+          <IconButton
+            onClick={handleExpandClick}
+            aria-expanded={expanded}
+            aria-label="show more"
+            sx={{
+              transform: expanded ? 'rotate(180deg)' : 'rotate(0deg)',
+              transition: 'transform 0.3s ease',
+              display: 'block',
+              marginLeft: 'auto'
+            }}
+          >
+            <ExpandMoreIcon />
+          </IconButton>
+        </CardContent>
+
+        <Collapse in={expanded} timeout="auto" unmountOnExit>
           <CardContent>
-            <Typography variant="h5" component="h2" className="anime-title">
-              John Roy Ducut - C-PEITEL3
-            </Typography>
-            <Typography variant="h6" component="h3">
-              My Anime List
-            </Typography>
-            <Typography variant="subtitle1" component="h3">
-              {index + 1} of {animeList.length}
-            </Typography>
+            <Typography>{anime.description}</Typography>
           </CardContent>
-
-          {/* Use the correct field `anime.url` for the image source */}
-          <CardMedia
-            component="img"
-            image={anime.url}  // Corrected to 'url'
-            alt={anime.alt}  // Use 'alt' for accessibility
-            className="anime-image"
-          />
-
-          <CardContent>
-            <Typography variant="h6" className="anime-title">
-              {anime.name}
-            </Typography>
-            <Typography variant="body2" color="text.secondary">
-              by {anime.artist}
-            </Typography>
-          </CardContent>
-
-          <CardActions className="card-actions" disableSpacing>
-            <IconButton
-              onClick={handleExpandClick}
-              aria-expanded={expanded}
-              aria-label="show more"
-              sx={{
-                transform: expanded ? 'rotate(180deg)' : 'rotate(0deg)',
-                transition: 'transform 0.3s ease',
-              }}
-            >
-              <ExpandMoreIcon />
-            </IconButton>
-          </CardActions>
-          <Collapse in={expanded} timeout="auto" unmountOnExit>
-            <CardContent>
-              <Typography>{anime.description}</Typography>
-            </CardContent>
-          </Collapse>
-        </Card>
-
-        <IconButton aria-label="next" onClick={handleNextClick} sx={{ color: 'white' }}>
-          <ArrowForwardIcon />
-        </IconButton>
-      </div>
+        </Collapse>
+      </Card>
     </div>
   );
 }
